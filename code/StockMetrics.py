@@ -14,35 +14,66 @@ class StockMetrics(StockData):
         self.load()
 
     def average01(self):
-        """pt1
-        """
+        
         averages = []
         for row in self.data:
-            average = sum(row)/len(row)
-            average.append(average)
+            values = []
+            for val in row[0:]: 
+                try: 
+                    num = float(val)
+                    values.append(num)
+                except ValueError:
+                    pass
+            if values: 
+                avg = round(sum(values)/len(values), 3)
+                averages.append(avg)  
         return averages
 
+      
     def median02(self):
-        """pt2
-        """
+        
         medians = []
-        for row in self.data:
-            s = sorted(row)
-            n = len(row)
-            median = (s[n/2-1]/2.0+s[n//2]/2.0, s[n/2])[n % 2]
-            medians.append (median)
+        for row in self.data[0:]:
+            values = []
+            for val in row: 
+                try: 
+                    num = float(val)
+                    values.append(num)
+                except ValueError:
+                    pass
+            if values: 
+                data = sorted(values)
+                data1 = len(data)
+                middle = (data1 - 1) // 2
+                if data1 % 2 == 1: 
+                    median = round(data[middle], 6)
+                else:
+                    median = round((data[middle] + data[middle + 1]) / 2, 6)
+                medians.append(median)
+            else:
+                medians.append(0.0)
         return medians
-
-
+                
 
     def stddev03(self):
         """pt3
         """
-        stddev = []
-        for row in self.data:
-           mean = sum(row) / len(row)
-           sq_diff = [(x - mean) ** 2 for x in row]
-           variance = sum(sq_diff) / len(row)
-           std_devi = vaariance ** 0.5 
-           stddev,append(std_devi)
-        return stddev
+        stdev3 = []
+        for row in self.data[0:]:
+            values = []
+            for val in row: 
+                try: 
+                    num = float(val)
+                    values.append(num)
+                except ValueError:
+                    pass
+            if len(values):
+                n = len(values)
+                mean = sum(values) / n
+                deviations = [(x - mean) ** 2 for x in values]
+                variance = sum(deviations) / (n - 1)
+                stdev = (variance ** 0.5)
+                stdev3.append(round(stdev, 3))
+            else: 
+                stdev3.append(0.0)
+        return stdev3
